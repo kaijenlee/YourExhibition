@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image'
 import { Canvas, useFrame } from '@react-three/fiber'
 import React, { useRef, useState } from 'react'
 import { MeshStandardMaterial } from 'three';
