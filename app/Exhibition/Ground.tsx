@@ -1,3 +1,5 @@
+'use client';
+
 import { MeshReflectorMaterial } from "@react-three/drei"
 import { useLoader } from "@react-three/fiber"
 import { useEffect } from "react"
