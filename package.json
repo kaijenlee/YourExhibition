@@ -1,8 +1,11 @@
 {
   "name": "photog-portfolio",
   "version": "0.1.0",
+  "homepage": "https://kaijenlee.github.io/photo-portfolio",
   "private": true,
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -24,6 +27,7 @@
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
+    "gh-pages": "^6.0.0",
     "postcss": "^8",
     "tailwindcss": "^3",
     "typescript": "^5"
