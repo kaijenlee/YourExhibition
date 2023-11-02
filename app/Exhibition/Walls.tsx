@@ -20,6 +20,7 @@ function YWall(props: { position: [number, number, number] }) {
             rotation-y={Math.PI * 0.5}
             castShadow
             receiveShadow
+            //@ts-ignore
             ref={ref}
         >
             <boxGeometry args={[length, height, wallThickness]} />
@@ -49,6 +50,7 @@ function HWall(props: { position: [number, number, number] }) {
             {...props}
             castShadow
             receiveShadow
+            //@ts-ignore
             ref={ref}>
             <boxGeometry args={[width + (2 * wallThickness), height, wallThickness]} />
             <meshStandardMaterial

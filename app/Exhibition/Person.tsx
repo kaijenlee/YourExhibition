@@ -1,12 +1,12 @@
 import { useSphere } from "@react-three/cannon";
-import { useFrame, useThree } from "@react-three/fiber";
+import { Object3DProps, SphereGeometryProps, useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three"
-import { fpControls } from "./util/utils";
+import { useFpControls } from "./util/utils";
 import { useEffect, useRef } from "react";
 import { SPEED } from "./constants/constants";
 
 
-export default function Person(props) { 
+export default function Person(props: any) { 
     const direction = new Vector3();
     const frontVector = new Vector3(); 
     const sideVector = new Vector3(); 
@@ -16,12 +16,12 @@ export default function Person(props) {
 
     const [ref,api] = useSphere((index) => ({
         mass: 1,
-        type: 'Dynamic',
+        type: "Dynamic",
         position: [0, 10, 0], // TODO set starting position as a env var 
         ...props, 
     })); 
 
-    const {forward, backward, left, right} = fpControls();
+    const {forward, backward, left, right} = useFpControls();
     const velocity = useRef([0,0,0]);
 
     useEffect(() => {
@@ -45,7 +45,9 @@ export default function Person(props) {
 
     return ( 
         <group>
-            <mesh castShadow position={props.position} ref={ref}>
+            <mesh castShadow position={props.position}
+            //@ts-ignore
+            ref={ref}>
                 <sphereGeometry args={props.args} />
                 <meshStandardMaterial color="#FFFF00" />
             </mesh>

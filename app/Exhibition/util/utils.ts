@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function fpControls() { 
+export function useFpControls() { 
     const keysMap: {[key:string]: string} = { 
         'KeyW': 'forward',
         'KeyS': 'backward',
