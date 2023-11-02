@@ -29,6 +29,7 @@ export function Ground() {
     }, [disp, diff])
 
     return (
+        //@ts-ignore
         <mesh rotation-x={-Math.PI * 0.5} castShadow receiveShadow ref={ref}>
             <planeGeometry args={[width, length]} /> 
             <MeshReflectorMaterial

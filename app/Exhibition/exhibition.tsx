@@ -11,6 +11,7 @@ import Person from "./Person";
 
 export function Exhibition() {
     const lightRef = useRef();
+    //@ts-ignore
     useHelper(lightRef, SpotLightHelper, 'Cyan')
     return (
         <>
@@ -26,6 +27,7 @@ export function Exhibition() {
                 position={[5, 10, 0]}
                 castShadow
                 shadow-bias={-0.0001}
+                //@ts-ignore
                 ref={lightRef}
             />
             <spotLight
