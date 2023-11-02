@@ -8,7 +8,7 @@ import { Box } from './components/Box';
 import { createRoot } from 'react-dom/client'
 import { OrbitControls } from "@react-three/drei";
 import Init from './Init';
-import ExhibitionApp, { Exhibition } from './Exhibition/exhibition';
+import ExhibitionApp, { Exhibition } from './Exhibition/Exhibition';
 
 // const root = createRoot(document.getElementById('root'));
 // root.render(

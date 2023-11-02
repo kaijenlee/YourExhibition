@@ -1,9 +1,19 @@
 import { MeshReflectorMaterial } from "@react-three/drei"
 import { useLoader } from "@react-three/fiber"
 import { useEffect } from "react"
-import { LinearSRGBColorSpace, RepeatWrapping, TextureLoader, Vector2 } from "three"
+import { LinearSRGBColorSpace, RepeatWrapping, TextureLoader, Vector2 } from "three";
+import {width, height, length, wallThickness} from './constants/constants';
+import { usePlane } from "@react-three/cannon";
 
 export function Ground() { 
+
+    // Floor physics Setup
+    const [ref] = usePlane((index) => ({
+        type: 'Static',
+        mass: 0,
+        rotation: [-Math.PI * 0.5, 0, 0],
+    }));
+
 
     const [diff, disp] = useLoader(TextureLoader, [
         "/textures/wood_floor_diff.jpg",
@@ -16,14 +26,11 @@ export function Ground() {
             t.wrapT = RepeatWrapping;
             t.repeat.set(5,5);
         });
-
-        // normal.encoding = LinearSRGBColorSpace; 
-        // roughness.encoding = LinearSRGBColorSpace;
     }, [disp, diff])
 
     return (
-        <mesh rotation-x={-Math.PI * 0.5} castShadow receiveShadow>
-            <planeGeometry args={[30, 30]} /> 
+        <mesh rotation-x={-Math.PI * 0.5} castShadow receiveShadow ref={ref}>
+            <planeGeometry args={[width, length]} /> 
             <MeshReflectorMaterial
                 envMapIntensity={1}
                 map={diff}
