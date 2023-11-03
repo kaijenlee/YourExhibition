@@ -1,4 +1,5 @@
-import ExhibitionApp from '../Exhibition/Exhibition';
+'use client';
+import ExhibitionApp from './exhibition/Exhibition';
 
 // const root = createRoot(document.getElementById('root'));
 // root.render(

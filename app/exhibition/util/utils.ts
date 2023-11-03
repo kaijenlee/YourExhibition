@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 export function useFpControls() { 
-    const keysMap: {[key:string]: string} = { 
+    const keysMap: {[key:string]: string} = useMemo(() => ({ 
         'KeyW': 'forward',
         'KeyS': 'backward',
         'KeyA': 'left',
         'KeyD': 'right'
-    };
+    }), []);
 
     // TODO: check what useState returns
     const [movement, setMovement] = useState({
@@ -37,7 +37,7 @@ export function useFpControls() {
             document.removeEventListener('keydown', handleKeyPress);
             document.removeEventListener('keyup', handleKeyRelease);
         })
-    }, []);
+    }, [keysMap]);
 
     return movement; 
 }
