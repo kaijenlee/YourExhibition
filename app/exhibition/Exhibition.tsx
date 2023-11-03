@@ -1,4 +1,4 @@
-import { FirstPersonControls, Grid, OrbitControls, PerspectiveCamera, PointerLockControls, SpotLight, TransformControls, useHelper } from "@react-three/drei";
+import { FirstPersonControls, Grid, Loader, OrbitControls, PerspectiveCamera, PointerLockControls, SpotLight, TransformControls, useHelper } from "@react-three/drei";
 import { Ground } from "./Ground";
 import { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber"
@@ -16,13 +16,13 @@ export function Exhibition() {
     return (
         <>
             {/* <OrbitControls target={[0, 6, 0]} maxPolarAngle={Math.PI} /> */}
-            <PerspectiveCamera makeDefault fov={75} position={[0, 6, -7.5]}/>
+            <PerspectiveCamera makeDefault fov={75} position={[0, 6, -7.5]} />
             {/* <color args={[0, 0, 0]} attach="background" /> */}
             {/* <ambientLight/> */}
             <spotLight
-                color={[1, 0.25,0]}
+                color={[1, 0.25, 0]}
                 intensity={100}
-                angle={Math.PI/3}
+                angle={Math.PI / 3}
                 penumbra={0.8}
                 position={[5, 10, 0]}
                 castShadow
@@ -40,15 +40,15 @@ export function Exhibition() {
                 shadow-bias={-0.0001}
             />
             <Physics>
-                <Person controls position={[0, 6 , -7.5]} args={[0.5]} color="yellow" />
+                <Person controls position={[0, 6, -7.5]} args={[0.5]} color="yellow" />
 
-                <Walls/>
+                <Walls />
                 <Ground />
             </Physics>
-            <PointerLockControls /> 
+            <PointerLockControls />
 
-            <mesh rotation-x={Math.PI * 0.5} rotation-={Math.PI *0.5} position-y={15} castShadow receiveShadow>
-                <planeGeometry args={[width,length]}/>
+            <mesh rotation-x={Math.PI * 0.5} rotation-={Math.PI * 0.5} position-y={15} castShadow receiveShadow>
+                <planeGeometry args={[width, length]} />
                 <meshPhongMaterial />
 
             </mesh>
@@ -59,11 +59,14 @@ export function Exhibition() {
 
 function ExhibitionApp() {
     return (
-        <Suspense fallback={null}>
+        <>
             <Canvas shadows>
-                <Exhibition />
+                <Suspense fallback={null}>
+                    <Exhibition />
+                </Suspense>
             </Canvas>
-        </Suspense>
+            <Loader />
+        </>
     )
 }
 
