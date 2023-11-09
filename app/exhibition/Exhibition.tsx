@@ -1,18 +1,18 @@
-import { KeyboardControls, Loader, PerspectiveCamera, PointerLockControls, useDepthBuffer, useHelper, SpotLight } from "@react-three/drei";
+import { KeyboardControls, Loader, PerspectiveCamera, PointerLockControls, SpotLight, useHelper } from "@react-three/drei";
 import { Canvas, useLoader, } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
 import { Suspense, useRef, useState } from "react";
+import { Object3D, SpotLight as SpotLight3, TextureLoader } from "three";
 import { SpotLightHelper } from "three/src/helpers/SpotLightHelper.js";
 import { Ground } from "./components/Ground";
 import Person from "./components/Person";
 import { Walls } from "./components/Walls";
 import { height, length, width } from "./constants/constants";
-import { Physics } from "@react-three/rapier";
-import THREE, { HemisphereLight, Object3D, TextureLoader, Vector3 } from "three";
 
 
 export function ExhibitionScene() {
-    const lightRef1 = useRef<SpotLight>(null);
-    const lightRef2 = useRef<SpotLight>(null);
+    const lightRef1 = useRef<SpotLight3>(null);
+    const lightRef2 = useRef<SpotLight3>(null);
 
     //@ts-ignore
     useHelper(lightRef1, SpotLightHelper, 'Cyan')
