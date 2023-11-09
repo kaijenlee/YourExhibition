@@ -22,10 +22,6 @@ export default function Person(props: any) {
             const trans = ref.current.translation();
             camera.position.set(trans.x, trans.y + 1.6, trans.z);
 
-            if (forward) {
-                console.log('RIGHTONNNN')
-            }
-
             frontVector.set(0, 0, Number(backward) - Number(forward));
             sideVector.set(Number(left) - Number(right), 0, 0);
             direction.subVectors(frontVector, sideVector)
