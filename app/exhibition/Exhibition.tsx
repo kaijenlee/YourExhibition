@@ -1,55 +1,108 @@
-import { KeyboardControls, Loader, PerspectiveCamera, PointerLockControls, useHelper } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef } from "react";
+import { KeyboardControls, Loader, PerspectiveCamera, PointerLockControls, useDepthBuffer, useHelper, SpotLight } from "@react-three/drei";
+import { Canvas, useLoader, } from "@react-three/fiber";
+import { Suspense, useRef, useState } from "react";
 import { SpotLightHelper } from "three/src/helpers/SpotLightHelper.js";
-import { Ground } from "./Ground";
-import Person from "./Person";
-import { Walls } from "./Walls";
-import { length, width } from "./constants/constants";
+import { Ground } from "./components/Ground";
+import Person from "./components/Person";
+import { Walls } from "./components/Walls";
+import { height, length, width } from "./constants/constants";
 import { Physics } from "@react-three/rapier";
+import THREE, { HemisphereLight, Object3D, TextureLoader, Vector3 } from "three";
 
 
-export function Exhibition() {
-    const lightRef = useRef();
+export function ExhibitionScene() {
+    const lightRef1 = useRef<SpotLight>(null);
+    const lightRef2 = useRef<SpotLight>(null);
+
     //@ts-ignore
-    useHelper(lightRef, SpotLightHelper, 'Cyan')
+    useHelper(lightRef1, SpotLightHelper, 'Cyan')
+    //@ts-ignore
+    useHelper(lightRef2, SpotLightHelper, 'Green')
+
+    const [photo ,eric1, eric2] = useLoader(TextureLoader, [
+        "/photo/bnwClub.jpg",
+        "/photo/eric1.jpg",
+        "/photo/eric2.jpg"
+    ])
+    const [bnwClubTarget] = useState(() => new Object3D())
+    const [eric1Target] = useState(() => new Object3D())
+    const [eric2Target] = useState(() => new Object3D())
+
+
+
     return (
         <>
             {/* <OrbitControls target={[0, 6, 0]} maxPolarAngle={Math.PI} /> */}
             <PerspectiveCamera makeDefault fov={75} position={[0, 6, -7.5]} />
-            {/* <color args={[0, 0, 0]} attach="background" /> */}
+            <hemisphereLight intensity={0.2} color={[1,0.5,0.25]}/>
             {/* <ambientLight /> */}
-            <spotLight
-                color={[1, 0.25, 0]}
-                intensity={100}
-                angle={Math.PI / 3}
-                penumbra={0.8}
-                position={[5, 10, 0]}
+            <SpotLight
                 castShadow
-                shadow-bias={-0.0001}
-                //@ts-ignore
-                ref={lightRef}
+                // ref={lightRef1}
+                penumbra={0.7}
+                distance={25}
+                angle={0.25}
+                attenuation={0.4}
+                anglePower={1.5}
+                intensity={500}
+                color={'white'}
+                position={[0, 10, -12]}
+                target={bnwClubTarget}
             />
-            <spotLight
-                color={[0.14, 0.5, 1]}
-                intensity={100}
-                angle={0.6}
-                penumbra={0.5}
-                position={[-5, 10, 0]}
-                castShadow
-                shadow-bias={-0.0001}
-            />
-            <Physics debug>
-                <Person controls position={[0, 5, 0]} args={[0.4]} color="yellow" />
+            <primitive object={bnwClubTarget} position={[0, 2, -14.5]} />
 
+            <SpotLight
+                castShadow
+                // ref={lightRef1}
+                penumbra={0.7}
+                distance={25}
+                angle={0.25}
+                attenuation={0.4}
+                anglePower={1.5}
+                intensity={500}
+                color={'white'}
+                position={[-4, 10, -12]}
+                target={eric1Target}
+            />
+            <primitive object={eric1Target} position={[-4, 2, -14.5]} />
+            <SpotLight
+                castShadow
+                // ref={lightRef1}
+                penumbra={0.7}
+                distance={25}
+                angle={0.25}
+                attenuation={0.4}
+                anglePower={1.5}
+                intensity={500}
+                color={'white'}
+                position={[4, 10, -12]}
+                target={eric2Target}
+            />
+            <primitive object={eric2Target} position={[4, 2, -14.5]} />
+
+            <Physics>
+                <Person controls position={[0, 5, -5]} args={[0.4]} color="yellow" />
                 <Walls />
                 <Ground />
             </Physics>
             <PointerLockControls />
 
-            <mesh rotation-x={Math.PI * 0.5} rotation-={Math.PI * 0.5} position-y={15} castShadow receiveShadow>
+            <mesh castShadow position={[0, 3, -14.5]}>
+                <boxGeometry args={[2, 3, 0.1]} />
+                <meshStandardMaterial map={photo} />
+            </mesh>
+            <mesh castShadow position={[-4, 3, -14.5]}>
+                <boxGeometry args={[2, 3, 0.1]} />
+                <meshStandardMaterial map={eric1} />
+            </mesh>
+            <mesh castShadow position={[4, 3, -14.5]}>
+                <boxGeometry args={[2, 3, 0.1]} />
+                <meshStandardMaterial map={eric2} />
+            </mesh>
+
+            <mesh rotation-x={Math.PI * 0.5} rotation-={Math.PI * 0.5} position-y={height} castShadow receiveShadow>
                 <planeGeometry args={[width, length]} />
-                <meshPhongMaterial />
+                <meshPhongMaterial color={'beige'} />
 
             </mesh>
             {/* <Grid infiniteGrid={true} /> */}
@@ -69,7 +122,7 @@ function ExhibitionApp() {
             ]}>
             <Canvas shadows>
                 <Suspense fallback={null}>
-                    <Exhibition />
+                    <ExhibitionScene />
                 </Suspense>
             </Canvas>
             <Loader />
