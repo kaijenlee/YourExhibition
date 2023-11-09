@@ -1,56 +1,63 @@
-import { useSphere } from "@react-three/cannon";
-import { Object3DProps, SphereGeometryProps, useFrame, useThree } from "@react-three/fiber";
-import { Vector3 } from "three"
-import { useFpControls } from "./util/utils";
-import { useEffect, useRef } from "react";
+import { useKeyboardControls } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { CapsuleCollider, RapierRigidBody, RigidBody, useRapier } from "@react-three/rapier";
+import { useRef } from "react";
+import { Vector3 } from "three";
 import { SPEED } from "./constants/constants";
 
 
-export default function Person(props: any) { 
+export default function Person(props: any) {
     const direction = new Vector3();
-    const frontVector = new Vector3(); 
-    const sideVector = new Vector3(); 
-    const speed = new Vector3(); 
-    
+    const frontVector = new Vector3();
+    const sideVector = new Vector3();
     const { camera } = useThree();
+    const ref = useRef<RapierRigidBody>(null);
+    const [, get] = useKeyboardControls();
 
-    const [ref,api] = useSphere((index) => ({
-        mass: 1,
-        type: "Dynamic",
-        position: [0, 10, 0], // TODO set starting position as a env var 
-        ...props, 
-    })); 
+    useFrame(() => {
+        const { forward, backward, left, right } = get();
 
-    const {forward, backward, left, right} = useFpControls();
-    const velocity = useRef([0,0,0]);
+        if (ref.current) {
+            const velocity = ref.current.linvel();
+            const trans = ref.current.translation();
+            camera.position.set(trans.x, trans.y + 1.6, trans.z);
 
-    useEffect(() => {
-        api.velocity.subscribe((v) => {
-            velocity.current = v;
-        })
-    }, [api.velocity]);
+            if (forward) {
+                console.log('RIGHTONNNN')
+            }
 
-    useFrame((state) => { 
-        ref.current?.getWorldPosition(camera.position);
-        frontVector.set(0,0, Number(backward) - Number(forward));
-        sideVector.set(Number(left) - Number(right), 0, 0);
-        direction.subVectors(frontVector, sideVector)
-            .normalize()
-            .multiplyScalar(SPEED)
-            .applyEuler(camera.rotation); 
-        speed.fromArray(velocity.current);
+            frontVector.set(0, 0, Number(backward) - Number(forward));
+            sideVector.set(Number(left) - Number(right), 0, 0);
+            direction.subVectors(frontVector, sideVector)
+                .normalize()
+                .multiplyScalar(SPEED)
+                .applyEuler(camera.rotation);
+            // // jumping
+            // const world = rapier.world.raw()
+            // const ray = world.castRay(new RAPIER.Ray(ref.current.translation(), { x: 0, y: -1, z: 0 }))
+            // const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1.75
+            // if (jump && grounded) ref.current.setLinvel({ x: 0, y: 7.5, z: 0 })
 
-        api.velocity.set(direction.x, velocity.current[1], direction.z);
+            ref.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z }, true);
+        }
+
     });
 
-    return ( 
-        <group>
-            <mesh castShadow position={props.position}
-            //@ts-ignore
-            ref={ref}>
-                <sphereGeometry args={props.args} />
-                <meshStandardMaterial color="#FFFF00" />
-            </mesh>
-        </group>
+    return (
+        <>
+            <RigidBody ref={ref} colliders={false} mass={1} type="dynamic" position={props.position} enabledRotations={[false, false, false]}>
+                <CapsuleCollider args={[0.9, 0.4]} />
+                {/* TODO swap with character model */}
+                <mesh castShadow position={[0, 0.9, 0]}>
+                    <sphereGeometry args={props.args} />
+                    <meshStandardMaterial color="#FFFF00" />
+                </mesh>
+                <mesh castShadow position={[0, -0.4, 0]}>
+                    <cylinderGeometry args={[0.4, 0.4, 1.8]} />
+                    <meshStandardMaterial color="#FFFF00" />
+                </mesh>
+            </RigidBody>
+        </>
+
     );
 }

@@ -1,12 +1,12 @@
-import { FirstPersonControls, Grid, Loader, OrbitControls, PerspectiveCamera, PointerLockControls, SpotLight, TransformControls, useHelper } from "@react-three/drei";
-import { Ground } from "./Ground";
+import { KeyboardControls, Loader, PerspectiveCamera, PointerLockControls, useHelper } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
-import { Canvas } from "@react-three/fiber"
-import { Walls } from "./Walls";
-import { width, length } from "./constants/constants";
 import { SpotLightHelper } from "three/src/helpers/SpotLightHelper.js";
-import { Physics } from '@react-three/cannon';
+import { Ground } from "./Ground";
 import Person from "./Person";
+import { Walls } from "./Walls";
+import { length, width } from "./constants/constants";
+import { Physics } from "@react-three/rapier";
 
 
 export function Exhibition() {
@@ -18,7 +18,7 @@ export function Exhibition() {
             {/* <OrbitControls target={[0, 6, 0]} maxPolarAngle={Math.PI} /> */}
             <PerspectiveCamera makeDefault fov={75} position={[0, 6, -7.5]} />
             {/* <color args={[0, 0, 0]} attach="background" /> */}
-            {/* <ambientLight/> */}
+            {/* <ambientLight /> */}
             <spotLight
                 color={[1, 0.25, 0]}
                 intensity={100}
@@ -39,8 +39,8 @@ export function Exhibition() {
                 castShadow
                 shadow-bias={-0.0001}
             />
-            <Physics>
-                <Person controls position={[0, 6, -7.5]} args={[0.5]} color="yellow" />
+            <Physics debug>
+                <Person controls position={[0, 5, 0]} args={[0.4]} color="yellow" />
 
                 <Walls />
                 <Ground />
@@ -59,14 +59,22 @@ export function Exhibition() {
 
 function ExhibitionApp() {
     return (
-        <>
+        <KeyboardControls
+            map={[
+                { name: "forward", keys: ["ArrowUp", "w", "W"] },
+                { name: "backward", keys: ["ArrowDown", "s", "S"] },
+                { name: "left", keys: ["ArrowLeft", "a", "A"] },
+                { name: "right", keys: ["ArrowRight", "d", "D"] },
+                { name: "jump", keys: ["Space"] },
+            ]}>
             <Canvas shadows>
                 <Suspense fallback={null}>
                     <Exhibition />
                 </Suspense>
             </Canvas>
             <Loader />
-        </>
+        </KeyboardControls>
+
     )
 }
 

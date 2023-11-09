@@ -1,62 +1,41 @@
-import { useBox } from '@react-three/cannon';
+import { RigidBody } from '@react-three/rapier'
 import { length, height, width, wallThickness } from './constants/constants'
 
 
 function YWall(props: { position: [number, number, number] }) {
-    const [ref] = useBox(() => ({
-        type: 'Static',
-        mass: 100,
-        onCollide: (e) => {
-            console.log(e);
-        },
-        rotation: [0, Math.PI * 0.5, 0],
-        ...props,
-        args: [length, height, wallThickness]
-    }));
-
     return (
-        <mesh
-            {...props}
-            rotation-y={Math.PI * 0.5}
-            castShadow
-            receiveShadow
-            //@ts-ignore
-            ref={ref}
-        >
-            <boxGeometry args={[length, height, wallThickness]} />
-            <meshStandardMaterial
-                color={'light-gray'}
-            />
-
-        </mesh>
+        <RigidBody type='fixed' colliders='cuboid' >
+            <mesh
+                {...props}
+                rotation-y={Math.PI * 0.5}
+                castShadow
+                receiveShadow
+            >
+                <boxGeometry args={[length, height, wallThickness]} />
+                <meshStandardMaterial
+                    color={'gray'}
+                />
+            </mesh>
+        </RigidBody >
 
     )
 
 }
 
 function HWall(props: { position: [number, number, number] }) {
-    const [ref] = useBox(() => ({
-        type: 'Static',
-        mass: 1,
-        onCollide: (e) => {
-            console.log(e);
-        },
-        ...props,
-        args: [width + (2 * wallThickness), height, wallThickness]
-    }));
-
-    return (
-        <mesh
-            {...props}
-            castShadow
-            receiveShadow
-            //@ts-ignore
-            ref={ref}>
-            <boxGeometry args={[width + (2 * wallThickness), height, wallThickness]} />
-            <meshStandardMaterial
-                color={'light-gray'}
-            />
-        </mesh>
+ return (
+        <RigidBody type='fixed' colliders='cuboid' >
+            <mesh
+                {...props}
+                castShadow
+                receiveShadow
+            >
+                <boxGeometry args={[width + (2 * wallThickness), height, wallThickness]} />
+                <meshStandardMaterial
+                    color={'light-gray'}
+                />
+            </mesh>
+        </RigidBody>
     )
 }
 
