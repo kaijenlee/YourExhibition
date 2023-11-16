@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# YourExhibition
 
-## Getting Started
+⚠️ This project is currently an early prototype! ⚠️
 
-First, run the development server:
+A personal project aimed to present a virtual exhibition for my photographic works, developed using the following libraries and framework:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js (React/TypeScript)
+- @react-three/fibre
+- @react-three/drei
+- @react-three/rapier
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Accessing the latest version
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The main branch of this project is deployed on Vercel, and can be acessed at  [🔗 YourExhibition](https://your-exhibition.vercel.app).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Screenshot
+<img src ="docs/img/screenshot.png" alt="screen-shot" style= "float" width="1000"/>
 
-## Learn More
+# Milestones
 
-To learn more about Next.js, take a look at the following resources:
+### Achieved 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✅ First-person controls + WASD movement  
+✅ Basic physics configuration for player  
+✅ Init global light configuration and spotlight setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### TODOs
 
-## Deploy on Vercel
+🔴 Instructions overlay  
+🔴 Spotlight Model  
+🔴 Player Model  
+🔴 Provide photo title and caption upon hover on  
+🔴 Extensive exhibition layout  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Future Considerations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+⚫️ UI to allow user to select the different exhibition available  
+⚫️ Move photo assets to a bucket storage and photo meta-data sanitization  
+⚫️ Admin dashboard to modify photos to be applied on preset canvases  
+⚫️ Admin dashboard to modify canvas placements
+
+# Disclaimer
+
+All photographs used in this project are properties of © 2023, Kaijen Lee. 
+
+You may view my photography portfolio at [🔗 Kaijen Lee](https://kaijenlee.com).

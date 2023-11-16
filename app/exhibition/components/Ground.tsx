@@ -6,7 +6,10 @@ import { RepeatWrapping, TextureLoader } from "three";
 import { length, width } from '../constants/constants';
 
 
-export function Ground() { 
+export function Ground() {
+    /**
+     * Wooden floor texture obtained from https://polyhaven.com/a/wood_floor
+     */
     const [diff, disp] = useLoader(TextureLoader, [
         "/textures/wood_floor_diff.jpg",
         "/textures/wood_floor_disp.png"

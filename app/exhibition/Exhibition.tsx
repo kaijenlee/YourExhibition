@@ -19,6 +19,11 @@ export function ExhibitionScene() {
     //@ts-ignore
     useHelper(lightRef2, SpotLightHelper, 'Green')
 
+
+    /**
+     * Photos are property of © 2023 Kaijen Lee
+     * Full portfolio can be viewed at https://kaijenlee.com
+     */
     const [photo ,eric1, eric2] = useLoader(TextureLoader, [
         "/photo/bnwClub.jpg",
         "/photo/eric1.jpg",
